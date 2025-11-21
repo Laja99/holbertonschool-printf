@@ -1,47 +1,78 @@
 #include "main.h"
 #include <stdarg.h>
 #include <unistd.h>
-/**
-* _printf - function that produces output according to a format
-* @format: format string containing format spesifiers
-* Return: number of digit printed
-*/
+
+int print_int(int n)
+{
+    int count = 0;
+    unsigned int num;
+
+    if (n < 0)
+    {
+        write(1, "-", 1);
+        count++;
+        num = -n;
+    }
+    else
+        num = n;
+
+    if (num / 10)
+        count += print_int(num / 10);
+
+    count += write(1, &"0123456789"[num % 10], 1);
+
+    return count;
+}
+
 int _printf(const char *format, ...)
 {
-	va_list args;
-	int count = 0; /* for return number of byte printed*/
+    va_list args;
+    int count = 0;
+    const char *p;
 
-	if (!format) /*if format NULL */
-	{
-		return (-1);
-	}
+    va_start(args, format);
 
-	va_start(args, format);
-	while (*format)
-	{
-		if (*format == '%') /* if we find % look to next letter*/
-		{
-			++format;
-			if (!*format)
-				return (-1);
-			else if (*format == 'c')
-				count += _putchar(va_arg(args, int));
-			else if (*format == 's')
-				count += print_string(va_arg(args, char*));
-			else if (*format == '%')
-				count += _putchar('%'); /* or count += _putchar(*format) */
-			else
-			{
-				count += _putchar('%');
-				count += _putchar(*format);
-			}
-		}
-		else /*Print the character next to '%' if it hasn't in the code */
-		{
-			count += _putchar(*format);
-		}
-		++format;
-	}
-	va_end(args);
-	return (count);
+    for (p = format; *p; p++)
+    {
+        if (*p != '%')
+        {
+            write(1, p, 1);
+            count++;
+            continue;
+        }
+        p++;
+        switch (*p)
+        {
+            case 'c':
+                count += write(1, (char[]){(char)va_arg(args,int),0}, 1);
+                break;
+            case 's':
+                {
+                    char *str = va_arg(args, char*);
+                    while (*str)
+                    {
+                        write(1, str, 1);
+                        str++;
+                        count++;
+                    }
+                }
+                break;
+            case '%':
+                write(1, "%", 1);
+                count++;
+                break;
+            case 'd':
+            case 'i':
+                count += print_int(va_arg(args, int));
+                break;
+            default:
+                write(1, "%", 1);
+                write(1, p, 1);
+                count += 2;
+                break;
+        }
+    }
+
+    va_end(args);
+    return count;
 }

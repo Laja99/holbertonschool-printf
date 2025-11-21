@@ -1,5 +1,10 @@
 #include "main.h"
 
+/**
+ * _printf - produces output according to a format
+ * @format: character string
+ * Return: number of characters printed
+ */
 int _printf(const char *format, ...)
 {
 	va_list args;
@@ -7,8 +12,8 @@ int _printf(const char *format, ...)
 	print_t p[] = {
 		{"c", print_c},
 		{"s", print_s},
-		{"d", print_d},
-		{"i", print_i},
+		{"d", print_dec},
+		{"i", print_int},
 		{NULL, NULL}
 	};
 

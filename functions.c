@@ -1,16 +1,31 @@
 #include "main.h"
 
+/**
+ * _putchar - writes the character c to stdout
+ * @c: The character to print
+ * Return: On success 1.
+ */
 int _putchar(char c)
 {
 	return (write(1, &c, 1));
 }
 
+/**
+ * print_c - prints a character
+ * @args: arguments
+ * Return: 1
+ */
 int print_c(va_list args)
 {
 	_putchar(va_arg(args, int));
 	return (1);
 }
 
+/**
+ * print_s - prints a string
+ * @args: arguments
+ * Return: number of characters printed
+ */
 int print_s(va_list args)
 {
 	int i = 0;
@@ -26,7 +41,12 @@ int print_s(va_list args)
 	return (i);
 }
 
-int print_i(va_list args)
+/**
+ * print_int - prints an integer
+ * @args: arguments
+ * Return: number of characters printed
+ */
+int print_int(va_list args)
 {
 	int n = va_arg(args, int);
 	int count = 0;
@@ -61,7 +81,12 @@ int print_i(va_list args)
 	return (count);
 }
 
-int print_d(va_list args)
+/**
+ * print_dec - prints a decimal
+ * @args: arguments
+ * Return: number of characters printed
+ */
+int print_dec(va_list args)
 {
-	return (print_i(args));
+	return (print_int(args));
 }

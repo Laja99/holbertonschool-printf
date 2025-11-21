@@ -25,7 +25,7 @@ int print_number(int n)
     if (n < 0) /*if the number nigative make it positive*/ 
 	{
 		count += _putchar('-');
-		n1 = -n;
+		n1 =(unsigned int)n;
 	}
 	else
 	{

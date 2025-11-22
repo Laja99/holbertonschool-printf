@@ -10,6 +10,10 @@ int _printf(const char *format, ...)
 		{"d", print_dec},
 		{"i", print_int},
 		{"b", print_b},
+		{"u", print_u},
+		{"o", print_o},
+		{"x", print_x},
+		{"X", print_X},
 		{NULL, NULL}
 	};
 

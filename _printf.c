@@ -3,7 +3,7 @@
 int _printf(const char *format, ...)
 {
 	unsigned int i = 0, ibuf = 0;
-	int j, count = 0, flags, width, size;
+	int j, count = 0, flags, width, precision, size;
 	char buffer[1024];
 	va_list args;
 	print_t p[] = {
@@ -21,6 +21,7 @@ int _printf(const char *format, ...)
 		{
 			flags = get_flags(format, (int *)&i);
 			width = get_width(format, (int *)&i, args);
+			precision = get_precision(format, (int *)&i, args);
 			size = get_size(format, (int *)&i);
 			
 			if (format[i + 1] == '%') {
@@ -28,7 +29,7 @@ int _printf(const char *format, ...)
 			}
 			for (j = 0; p[j].type_arg; j++) {
 				if (format[i + 1] == *p[j].type_arg) {
-					count += p[j].f(args, buffer, &ibuf, flags, width, size);
+					count += p[j].f(args, buffer, &ibuf, flags, width, precision, size);
 					i += 2; break;
 				}
 			}

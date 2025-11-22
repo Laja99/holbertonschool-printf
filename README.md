@@ -89,6 +89,7 @@ Percent: %
 
 ---
 ## Flowchart
+![Flowchart](_printf_flowchart.jpg)
 
 
 ## Testing

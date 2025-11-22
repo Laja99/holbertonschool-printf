@@ -10,7 +10,7 @@ int _printf(const char *format, ...)
 		{"c", print_c}, {"s", print_s}, {"d", print_dec},
 		{"i", print_int}, {"b", print_b}, {"u", print_u},
 		{"o", print_o}, {"x", print_x}, {"X", print_X},
-		{NULL, NULL}
+		{"p", print_p}, {NULL, NULL}
 	};
 
 	if (!format || (format[0] == '%' && !format[1]))

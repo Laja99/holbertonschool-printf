@@ -114,3 +114,44 @@ int print_X(va_list args, char *buf, unsigned int *ibuf)
 	}
 	return (count);
 }
+
+int print_p(va_list args, char *buf, unsigned int *ibuf)
+{
+	void *add = va_arg(args, void *);
+	unsigned long int n = (unsigned long int)add;
+	unsigned long int m = 1;
+	unsigned long int temp = n;
+	int count = 0;
+	char *str = "(nil)";
+	int i = 0;
+
+	if (add == NULL)
+	{
+		while (str[i])
+		{
+			handl_buf(buf, str[i], ibuf);
+			i++;
+		}
+		return (i);
+	}
+	handl_buf(buf, '0', ibuf);
+	handl_buf(buf, 'x', ibuf);
+	count = 2;
+	while (temp > 15)
+	{
+		m *= 16;
+		temp /= 16;
+	}
+	while (m > 0)
+	{
+		unsigned int digit = n / m;
+		if (digit < 10)
+			handl_buf(buf, digit + '0', ibuf);
+		else
+			handl_buf(buf, digit - 10 + 'a', ibuf);
+		count++;
+		n %= m;
+		m /= 16;
+	}
+	return (count);
+}

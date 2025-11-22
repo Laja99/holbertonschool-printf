@@ -21,5 +21,6 @@ int print_u(va_list args, char *buf, unsigned int *ibuf);
 int print_o(va_list args, char *buf, unsigned int *ibuf);
 int print_x(va_list args, char *buf, unsigned int *ibuf);
 int print_X(va_list args, char *buf, unsigned int *ibuf);
+int print_p(va_list args, char *buf, unsigned int *ibuf);
 
 #endif

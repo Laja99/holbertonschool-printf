@@ -10,24 +10,28 @@
 #define F_ZERO 8
 #define F_MINUS 16
 
+#define S_LONG 1
+#define S_SHORT 2
+
 typedef struct print
 {
 	char *type_arg;
-	int (*f)(va_list, char *, unsigned int *, int);
+	int (*f)(va_list, char *, unsigned int *, int, int);
 } print_t;
 
 int _printf(const char *format, ...);
 int handl_buf(char *buf, char c, unsigned int *ibuf);
 int get_flags(const char *format, int *i);
-int print_c(va_list args, char *buf, unsigned int *ibuf, int flags);
-int print_s(va_list args, char *buf, unsigned int *ibuf, int flags);
-int print_int(va_list args, char *buf, unsigned int *ibuf, int flags);
-int print_dec(va_list args, char *buf, unsigned int *ibuf, int flags);
-int print_b(va_list args, char *buf, unsigned int *ibuf, int flags);
-int print_u(va_list args, char *buf, unsigned int *ibuf, int flags);
-int print_o(va_list args, char *buf, unsigned int *ibuf, int flags);
-int print_x(va_list args, char *buf, unsigned int *ibuf, int flags);
-int print_X(va_list args, char *buf, unsigned int *ibuf, int flags);
-int print_p(va_list args, char *buf, unsigned int *ibuf, int flags);
+int get_size(const char *format, int *i);
+int print_c(va_list args, char *buf, unsigned int *ibuf, int flags, int size);
+int print_s(va_list args, char *buf, unsigned int *ibuf, int flags, int size);
+int print_int(va_list args, char *buf, unsigned int *ibuf, int flags, int size);
+int print_dec(va_list args, char *buf, unsigned int *ibuf, int flags, int size);
+int print_b(va_list args, char *buf, unsigned int *ibuf, int flags, int size);
+int print_u(va_list args, char *buf, unsigned int *ibuf, int flags, int size);
+int print_o(va_list args, char *buf, unsigned int *ibuf, int flags, int size);
+int print_x(va_list args, char *buf, unsigned int *ibuf, int flags, int size);
+int print_X(va_list args, char *buf, unsigned int *ibuf, int flags, int size);
+int print_p(va_list args, char *buf, unsigned int *ibuf, int flags, int size);
 
 #endif

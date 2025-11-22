@@ -1,12 +1,13 @@
 #include "main.h"
 
-int print_b(va_list args, char *buf, unsigned int *ibuf, int flags)
+int print_b(va_list args, char *buf, unsigned int *ibuf, int flags, int size)
 {
 	unsigned int n = va_arg(args, unsigned int);
 	unsigned int m = 2147483648, i, sum = 0;
 	unsigned int a[32];
 	int count = 0;
 	(void)flags;
+	(void)size;
 
 	a[0] = n / m;
 	for (i = 1; i < 32; i++)
@@ -26,12 +27,18 @@ int print_b(va_list args, char *buf, unsigned int *ibuf, int flags)
 	return (count);
 }
 
-int print_u(va_list args, char *buf, unsigned int *ibuf, int flags)
+int print_u(va_list args, char *buf, unsigned int *ibuf, int flags, int size)
 {
-	unsigned int n = va_arg(args, unsigned int);
-	unsigned int temp, div = 1;
+	unsigned long int n, temp, div = 1;
 	int count = 0;
 	(void)flags;
+
+	if (size == S_LONG)
+		n = va_arg(args, unsigned long int);
+	else if (size == S_SHORT)
+		n = (unsigned short)va_arg(args, unsigned int);
+	else
+		n = (unsigned int)va_arg(args, unsigned int);
 
 	temp = n;
 	while (temp > 9)
@@ -48,11 +55,17 @@ int print_u(va_list args, char *buf, unsigned int *ibuf, int flags)
 	return (count);
 }
 
-int print_o(va_list args, char *buf, unsigned int *ibuf, int flags)
+int print_o(va_list args, char *buf, unsigned int *ibuf, int flags, int size)
 {
-	unsigned int n = va_arg(args, unsigned int);
-	unsigned int temp, div = 1;
+	unsigned long int n, temp, div = 1;
 	int count = 0;
+
+	if (size == S_LONG)
+		n = va_arg(args, unsigned long int);
+	else if (size == S_SHORT)
+		n = (unsigned short)va_arg(args, unsigned int);
+	else
+		n = (unsigned int)va_arg(args, unsigned int);
 
 	if ((flags & F_HASH) && n != 0)
 	{
@@ -75,11 +88,17 @@ int print_o(va_list args, char *buf, unsigned int *ibuf, int flags)
 	return (count);
 }
 
-int print_x(va_list args, char *buf, unsigned int *ibuf, int flags)
+int print_x(va_list args, char *buf, unsigned int *ibuf, int flags, int size)
 {
-	unsigned int n = va_arg(args, unsigned int);
-	unsigned int temp, div = 1;
+	unsigned long int n, temp, div = 1;
 	int count = 0;
+
+	if (size == S_LONG)
+		n = va_arg(args, unsigned long int);
+	else if (size == S_SHORT)
+		n = (unsigned short)va_arg(args, unsigned int);
+	else
+		n = (unsigned int)va_arg(args, unsigned int);
 
 	if ((flags & F_HASH) && n != 0)
 	{
@@ -106,11 +125,17 @@ int print_x(va_list args, char *buf, unsigned int *ibuf, int flags)
 	return (count);
 }
 
-int print_X(va_list args, char *buf, unsigned int *ibuf, int flags)
+int print_X(va_list args, char *buf, unsigned int *ibuf, int flags, int size)
 {
-	unsigned int n = va_arg(args, unsigned int);
-	unsigned int temp, div = 1;
+	unsigned long int n, temp, div = 1;
 	int count = 0;
+
+	if (size == S_LONG)
+		n = va_arg(args, unsigned long int);
+	else if (size == S_SHORT)
+		n = (unsigned short)va_arg(args, unsigned int);
+	else
+		n = (unsigned int)va_arg(args, unsigned int);
 
 	if ((flags & F_HASH) && n != 0)
 	{
@@ -137,7 +162,7 @@ int print_X(va_list args, char *buf, unsigned int *ibuf, int flags)
 	return (count);
 }
 
-int print_p(va_list args, char *buf, unsigned int *ibuf, int flags)
+int print_p(va_list args, char *buf, unsigned int *ibuf, int flags, int size)
 {
 	void *add = va_arg(args, void *);
 	unsigned long int n = (unsigned long int)add;
@@ -147,6 +172,7 @@ int print_p(va_list args, char *buf, unsigned int *ibuf, int flags)
 	char *str = "(nil)";
 	int i = 0;
 	(void)flags;
+	(void)size;
 
 	if (add == NULL)
 	{

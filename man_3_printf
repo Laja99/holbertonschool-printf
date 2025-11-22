@@ -11,7 +11,5 @@ The
 function formats and prints data to the standard output according to the
 .I format
 argument.
-.SH RETURN VALUE
-Returns the number of characters printed.
 .SH AUTHOR
 Mohammed & Layla

@@ -1,16 +1,18 @@
 #include "main.h"
 
-int print_c(va_list args, char *buf, unsigned int *ibuf)
+int print_c(va_list args, char *buf, unsigned int *ibuf, int flags)
 {
 	char c = va_arg(args, int);
+	(void)flags;
 	handl_buf(buf, c, ibuf);
 	return (1);
 }
 
-int print_s(va_list args, char *buf, unsigned int *ibuf)
+int print_s(va_list args, char *buf, unsigned int *ibuf, int flags)
 {
 	int i = 0;
 	char *str = va_arg(args, char *);
+	(void)flags;
 
 	if (str == NULL)
 		str = "(null)";
@@ -22,11 +24,25 @@ int print_s(va_list args, char *buf, unsigned int *ibuf)
 	return (i);
 }
 
-int print_int(va_list args, char *buf, unsigned int *ibuf)
+int print_int(va_list args, char *buf, unsigned int *ibuf, int flags)
 {
 	int n = va_arg(args, int);
 	unsigned int num, temp, div = 1;
 	int count = 0;
+
+	if (n >= 0)
+	{
+		if (flags & F_PLUS)
+		{
+			handl_buf(buf, '+', ibuf);
+			count++;
+		}
+		else if (flags & F_SPACE)
+		{
+			handl_buf(buf, ' ', ibuf);
+			count++;
+		}
+	}
 
 	if (n < 0)
 	{
@@ -52,7 +68,7 @@ int print_int(va_list args, char *buf, unsigned int *ibuf)
 	return (count);
 }
 
-int print_dec(va_list args, char *buf, unsigned int *ibuf)
+int print_dec(va_list args, char *buf, unsigned int *ibuf, int flags)
 {
-	return (print_int(args, buf, ibuf));
+	return (print_int(args, buf, ibuf, flags));
 }

@@ -3,7 +3,7 @@
 int _printf(const char *format, ...)
 {
 	unsigned int i = 0, ibuf = 0;
-	int j, count = 0;
+	int j, count = 0, flags;
 	char buffer[1024];
 	va_list args;
 	print_t p[] = {
@@ -20,6 +20,8 @@ int _printf(const char *format, ...)
 	{
 		if (format[i] == '%')
 		{
+			flags = get_flags(format, (int *)&i);
+			
 			if (format[i + 1] == '%')
 			{
 				handl_buf(buffer, '%', &ibuf);
@@ -31,7 +33,7 @@ int _printf(const char *format, ...)
 			{
 				if (format[i + 1] == *p[j].type_arg)
 				{
-					count += p[j].f(args, buffer, &ibuf);
+					count += p[j].f(args, buffer, &ibuf, flags);
 					i += 2;
 					break;
 				}

@@ -35,7 +35,7 @@ int print_u(va_list args, char *buf, unsigned int *ibuf, int flags, int width, i
 	while (temp > 9) { div *= 10; temp /= 10; len++; }
 
 	if (precision > len) padd = precision - len;
-	if (flags & F_ZERO && !(flags & F_MINUS) && precision == -1) pad = '0';
+	if ((flags & F_ZERO) && !(flags & F_MINUS) && precision == -1) pad = '0';
 
 	if (!(flags & F_MINUS))
 		while (width > len + padd) { handl_buf(buf, pad, ibuf); width--; count++; }
@@ -64,7 +64,7 @@ int print_o(va_list args, char *buf, unsigned int *ibuf, int flags, int width, i
 	while (temp > 7) { div *= 8; temp /= 8; len++; }
 	if (flags & F_HASH && n != 0) len++;
 	if (precision > len) padd = precision - len;
-	if (flags & F_ZERO && !(flags & F_MINUS) && precision == -1) pad = '0';
+	if ((flags & F_ZERO) && !(flags & F_MINUS) && precision == -1) pad = '0';
 
 	if (!(flags & F_MINUS))
 		while (width > len + padd) { handl_buf(buf, pad, ibuf); width--; count++; }
@@ -95,7 +95,7 @@ int print_x(va_list args, char *buf, unsigned int *ibuf, int flags, int width, i
 	while (temp > 15) { div *= 16; temp /= 16; len++; }
 	if (flags & F_HASH && n != 0) len += 2;
 	if (precision > len) padd = precision - len;
-	if (flags & F_ZERO && !(flags & F_MINUS) && precision == -1) pad = '0';
+	if ((flags & F_ZERO) && !(flags & F_MINUS) && precision == -1) pad = '0';
 
 	if (!(flags & F_MINUS))
 		while (width > len + padd) { handl_buf(buf, pad, ibuf); width--; count++; }
@@ -130,7 +130,7 @@ int print_X(va_list args, char *buf, unsigned int *ibuf, int flags, int width, i
 	while (temp > 15) { div *= 16; temp /= 16; len++; }
 	if (flags & F_HASH && n != 0) len += 2;
 	if (precision > len) padd = precision - len;
-	if (flags & F_ZERO && !(flags & F_MINUS) && precision == -1) pad = '0';
+	if ((flags & F_ZERO) && !(flags & F_MINUS) && precision == -1) pad = '0';
 
 	if (!(flags & F_MINUS))
 		while (width > len + padd) { handl_buf(buf, pad, ibuf); width--; count++; }

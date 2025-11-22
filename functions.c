@@ -60,7 +60,7 @@ int print_int(va_list args, char *buf, unsigned int *ibuf, int flags, int width,
 	len++;
 
 	if (precision > (neg ? len - 1 : len)) padd = precision - (neg ? len - 1 : len);
-	if (flags & F_ZERO && !(flags & F_MINUS) && precision == -1) pad = '0';
+	if ((flags & F_ZERO) && !(flags & F_MINUS) && precision == -1) pad = '0';
 	
 	if (!(flags & F_MINUS))
 		while (width > len + padd) { handl_buf(buf, pad, ibuf); width--; count++; }

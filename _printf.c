@@ -2,61 +2,55 @@
 
 int _printf(const char *format, ...)
 {
+	unsigned int i = 0, ibuf = 0;
+	int j, count = 0;
+	char buffer[1024];
 	va_list args;
-	int i = 0, j, count = 0;
 	print_t p[] = {
-		{"c", print_c},
-		{"s", print_s},
-		{"d", print_dec},
-		{"i", print_int},
-		{"b", print_b},
-		{"u", print_u},
-		{"o", print_o},
-		{"x", print_x},
-		{"X", print_X},
+		{"c", print_c}, {"s", print_s}, {"d", print_dec},
+		{"i", print_int}, {"b", print_b}, {"u", print_u},
+		{"o", print_o}, {"x", print_x}, {"X", print_X},
 		{NULL, NULL}
 	};
 
 	if (!format || (format[0] == '%' && !format[1]))
 		return (-1);
-
 	va_start(args, format);
-	while (format[i])
+	while (format && format[i])
 	{
 		if (format[i] == '%')
 		{
 			if (format[i + 1] == '%')
 			{
-				_putchar('%');
+				handl_buf(buffer, '%', &ibuf);
 				count++;
 				i += 2;
 				continue;
 			}
-			j = 0;
-			while (p[j].type_arg)
+			for (j = 0; p[j].type_arg; j++)
 			{
 				if (format[i + 1] == *p[j].type_arg)
 				{
-					count += p[j].f(args);
+					count += p[j].f(args, buffer, &ibuf);
 					i += 2;
 					break;
 				}
-				j++;
 			}
 			if (!p[j].type_arg)
 			{
-				_putchar('%');
+				handl_buf(buffer, '%', &ibuf);
 				count++;
 				i++;
 			}
 		}
 		else
 		{
-			_putchar(format[i]);
+			handl_buf(buffer, format[i], &ibuf);
 			count++;
 			i++;
 		}
 	}
+	write(1, buffer, ibuf);
 	va_end(args);
 	return (count);
 }

@@ -12,6 +12,7 @@ int _printf(const char *format, ...)
 	print_t p[] = {
 		{"c", print_c},
 		{"s", print_s},
+		{"S", print_S},
 		{"d", print_dec},
 		{"i", print_int},
 		{NULL, NULL}

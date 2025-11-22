@@ -1,4 +1,5 @@
 #include "main.h"
+#include <stdio.h>
 
 /**
  * _putchar - writes the character c to stdout
@@ -89,4 +90,40 @@ int print_int(va_list args)
 int print_dec(va_list args)
 {
 	return (print_int(args));
+}
+
+/**
+ * print_S - prints a string with non-printable chars in \xHH format
+ * @args: list of arguments
+ *
+ * Return: number of characters printed
+ */
+int print_S(va_list args)
+{
+    char *str;
+    int i, count = 0;
+    char hex[3];
+
+    str = va_arg(args, char *);
+    if (str == NULL)
+        str = "(null)";
+
+    for (i = 0; str[i] != '\0'; i++)
+    {
+        if ((str[i] > 0 && str[i] < 32) || str[i] >= 127)
+        {
+            count += _putchar('\\');
+            count += _putchar('x');
+
+            sprintf(hex, "%02X", (unsigned char)str[i]);
+
+            count += _putchar(hex[0]);
+            count += _putchar(hex[1]);
+        }
+        else
+        {
+            count += _putchar(str[i]);
+        }
+    }
+    return (count);
 }

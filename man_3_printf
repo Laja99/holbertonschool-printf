@@ -128,7 +128,5 @@ _printf("Percent sign: %%\\n");
    Output: Percent sign: %
    Return: 16
 .fi
-.SH SEE ALSO
-printf(3)
 .SH AUTHOR
 Mohammed & Layla

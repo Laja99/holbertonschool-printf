@@ -22,8 +22,9 @@ int print_R(va_list args, char *buf, unsigned int *ibuf,
 
     while (str[len]) len++;
     if (precision >= 0 && precision < len) len = precision;
+    int i;
 
-    for (int i = 0; i < len; i++) {
+    for (i = 0; i < len; i++) {
         char c = str[i];
         if (c >= 'A' && c <= 'Z') c = ((c - 'A' + 13) % 26) + 'A';
         else if (c >= 'a' && c <= 'z') c = ((c - 'a' + 13) % 26) + 'a';

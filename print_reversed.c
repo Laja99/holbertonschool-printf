@@ -14,6 +14,7 @@
 int print_r(va_list args, char *buf, unsigned int *ibuf,
             int flags, int width, int precision, int size)
 {
+    int i;
     char *str = va_arg(args, char *);
     int len = 0, count = 0;
     (void)flags; (void)width; (void)precision; (void)size;
@@ -23,7 +24,7 @@ int print_r(va_list args, char *buf, unsigned int *ibuf,
     while (str[len]) len++;
     if (precision >= 0 && precision < len) len = precision;
 
-    for (int i = len - 1; i >= 0; i--)
+    for (i = len - 1; i >= 0; i--)
         count += handl_buf(buf, str[i], ibuf);
 
     return count;

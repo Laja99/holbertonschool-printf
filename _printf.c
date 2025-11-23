@@ -10,11 +10,13 @@ int _printf(const char *format, ...)
 		{"c", print_c}, {"s", print_s}, {"d", print_dec},
 		{"i", print_int}, {"b", print_b}, {"u", print_u},
 		{"o", print_o}, {"x", print_x}, {"X", print_X},
-		{"p", print_p}, {NULL, NULL}
+		{"p", print_p}, {"r", print_r}, {"R", print_R},
+		{NULL, NULL}
 	};
 
 	if (!format || (format[0] == '%' && !format[1])) return (-1);
 	va_start(args, format);
+
 	while (format && format[i])
 	{
 		if (format[i] == '%')
@@ -23,8 +25,9 @@ int _printf(const char *format, ...)
 			width = get_width(format, (int *)&i, args);
 			precision = get_precision(format, (int *)&i, args);
 			size = get_size(format, (int *)&i);
-			
-			if (format[i + 1] == '%') {
+
+			if (format[i + 1] == '%') 
+			{
 				handl_buf(buffer, '%', &ibuf); count++; i += 2; continue;
 			}
 			for (j = 0; p[j].type_arg; j++) {

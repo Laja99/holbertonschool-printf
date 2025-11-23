@@ -35,5 +35,7 @@ int print_o(va_list args, char *buf, unsigned int *ibuf, int flags, int width, i
 int print_x(va_list args, char *buf, unsigned int *ibuf, int flags, int width, int precision, int size);
 int print_X(va_list args, char *buf, unsigned int *ibuf, int flags, int width, int precision, int size);
 int print_p(va_list args, char *buf, unsigned int *ibuf, int flags, int width, int precision, int size);
+int print_r(va_list args, char *buf, unsigned int *ibuf, int flags, int width, int precision, int size);
+int print_R(va_list args, char *buf, unsigned int *ibuf, int flags, int width, int precision, int size);
 
 #endif

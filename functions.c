@@ -42,41 +42,80 @@ int print_int(va_list args, char *buf, unsigned int *ibuf, int flags, int width,
 	int count = 0, len = 0, neg = 0, padd = 0;
 	char pad = ' ';
 
-	if (size == S_LONG) n = va_arg(args, long int);
-	else if (size == S_SHORT) n = (short)va_arg(args, int);
-	else n = (int)va_arg(args, int);
+	if (size == S_LONG)
+		n = va_arg(args, long int);
+	else if (size == S_SHORT)
+		n = (short)va_arg(args, int);
+	else
+		n = (int)va_arg(args, int);
 
-	if (n == 0 && precision == 0) {
-		if (width > 0 && (flags & F_PLUS)) { handl_buf(buf, '+', ibuf); count++; width--; }
-		else if (width > 0 && (flags & F_SPACE)) { handl_buf(buf, ' ', ibuf); count++; width--; }
-		while (width > 0) { handl_buf(buf, ' ', ibuf); width--; count++; }
-		return (count);
+	if (n == 0 && precision == 0)
+	{
+		int printed = 0;
+		if (flags & F_PLUS) { handl_buf(buf, '+', ibuf); printed++; }
+		else if (flags & F_SPACE) { handl_buf(buf, ' ', ibuf); printed++; }
+		while (width > printed) { handl_buf(buf, ' ', ibuf); width--; count++; }
+		return (count + printed);
 	}
-	if (n < 0) { neg = 1; num = (unsigned long int)((-1) * n); len++; }
-	else { num = n; if ((flags & F_PLUS) || (flags & F_SPACE)) len++; }
-	
-	temp = num;
-	while (temp > 9) { div *= 10; temp /= 10; len++; }
-	len++;
 
-	if (precision > (neg ? len - 1 : len)) padd = precision - (neg ? len - 1 : len);
-	if ((flags & F_ZERO) && !(flags & F_MINUS) && precision == -1) pad = '0';
-	
-	if (!(flags & F_MINUS))
-		while (width > len + padd) { handl_buf(buf, pad, ibuf); width--; count++; }
-	
-	if (neg) handl_buf(buf, '-', ibuf);
-	else if (flags & F_PLUS) handl_buf(buf, '+', ibuf);
-	else if (flags & F_SPACE) handl_buf(buf, ' ', ibuf);
+	if (n < 0)
+	{
+		neg = 1;
+		num = (unsigned long int)(-n);
+	}
+	else
+		num = (unsigned long int)n;
 
-	while (padd > 0) { handl_buf(buf, '0', ibuf); padd--; }
-	
-	div = 1; temp = num;
-	while (temp > 9) { div *= 10; temp /= 10; }
-	while (div != 0) { handl_buf(buf, (num / div) % 10 + '0', ibuf); div /= 10; }
-	count += len;
-	
-	while (width > len) { handl_buf(buf, ' ', ibuf); width--; count++; }
+	temp = num; while (temp > 9) { div *= 10; temp /= 10; }
+	/* number of digits */
+	len = 0; temp = num; do { len++; temp /= 10; } while (temp != 0);
+
+	if (precision > len)
+		padd = precision - len;
+
+	if ((flags & F_ZERO) && !(flags & F_MINUS) && precision == -1)
+		pad = '0';
+
+	{
+		int prefix = (neg ? 1 : ((flags & F_PLUS) ? 1 : ((flags & F_SPACE) ? 1 : 0)));
+		int total = prefix + len + padd;
+
+		if (!(flags & F_MINUS))
+		{
+			if (pad == '0')
+			{
+				if (neg) { handl_buf(buf, '-', ibuf); count++; }
+				else if (flags & F_PLUS) { handl_buf(buf, '+', ibuf); count++; }
+				else if (flags & F_SPACE) { handl_buf(buf, ' ', ibuf); count++; }
+				while (width > total) { handl_buf(buf, '0', ibuf); width--; count++; }
+			}
+			else
+			{
+				while (width > total) { handl_buf(buf, ' ', ibuf); width--; count++; }
+				if (neg) { handl_buf(buf, '-', ibuf); count++; }
+				else if (flags & F_PLUS) { handl_buf(buf, '+', ibuf); count++; }
+				else if (flags & F_SPACE) { handl_buf(buf, ' ', ibuf); count++; }
+			}
+		}
+		else
+		{
+			if (neg) { handl_buf(buf, '-', ibuf); count++; }
+			else if (flags & F_PLUS) { handl_buf(buf, '+', ibuf); count++; }
+			else if (flags & F_SPACE) { handl_buf(buf, ' ', ibuf); count++; }
+		}
+
+		while (padd > 0) { handl_buf(buf, '0', ibuf); padd--; count++; }
+
+		div = 1; temp = num; while (temp > 9) { div *= 10; temp /= 10; }
+		while (div != 0) { handl_buf(buf, (num / div) % 10 + '0', ibuf); div /= 10; count++; }
+
+		while (width > total)
+		{
+			handl_buf(buf, ' ', ibuf);
+			width--;
+			count++;
+		}
+	}
 	return (count);
 }
 

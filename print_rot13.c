@@ -11,27 +11,42 @@
  *
  * Return: Number of characters printed
  */
+
 int print_R(va_list args, char *buf, unsigned int *ibuf,
-            int flags, int width, int precision, int size)
+	int flags, int width, int precision, int size)
+
 {
-    char *str = va_arg(args, char *);
-    int len = 0, count = 0;
-    (void)flags; (void)width; (void)precision; (void)size;
+	int i;
+	char *str = va_arg(args, char *);
+	int len = 0, count = 0;
 
-    if (!str) str = "(null)";
+	(void)flags;
+	(void)width;
+	(void)precision;
+	(void)size;
 
-    while (str[len]) len++;
-    if (precision >= 0 && precision < len) len = precision;
-    int i;
+	if (!str)
+	{
+		str = "(null)";
+	}
 
-    for (i = 0; i < len; i++) {
-        char c = str[i];
-        if (c >= 'A' && c <= 'Z') c = ((c - 'A' + 13) % 26) + 'A';
-        else if (c >= 'a' && c <= 'z') c = ((c - 'a' + 13) % 26) + 'a';
-        count += handl_buf(buf, c, ibuf);
-    }
+	while (str[len])
+		len++;
+	if (precision >= 0 && precision < len)
+		len = precision;
 
-    return count;
+	for (i = 0; i < len; i++)
+	{
+		char c = str[i];
+
+		if (c >= 'A' && c <= 'Z')
+			c = ((c - 'A' + 13) % 26) + 'A';
+		else if (c >= 'a' && c <= 'z')
+			c = ((c - 'a' + 13) % 26) + 'a';
+		count += handl_buf(buf, c, ibuf);
+	}
+
+	return (count);
 }
 
 
